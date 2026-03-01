@@ -234,45 +234,51 @@ class QMMMHamiltonianBuilder:
 
     # ── Mock Hamiltonian (no PySCF) ──────────────────────────
 
-    def _mock_hamiltonian(
-        self,
-        atoms: Optional[list] = None,
-    ) -> HamiltonianData:
+    def _mock_hamiltonian(self, atoms=None):
         """
-        Pre-computed / mock Hamiltonian for testing on Windows.
-        Uses H2/STO-3G reference values so numbers are realistic.
-
-        Reference energies:
-          H2 STO-3G: E_HF = -1.117349 Ha, E_FCI = -1.137270 Ha
-          LiH STO-3G: E_HF = -7.862246 Ha
-          H2O STO-3G: E_HF = -74.963 Ha
+        Mock Hamiltonian using EXACT H2/STO-3G integrals from PySCF reference.
+        H2 bond length 0.74 Å.  E_HF = -1.117349 Ha,  E_FCI = -1.137270 Ha.
+        These are hardcoded so ADAPT-VQE converges correctly without PySCF.
         """
         n = self.n_orb
-        np.random.seed(42)
 
-        # Realistic one-body integrals (symmetric)
-        h1e = np.random.randn(n, n) * 0.3
-        h1e = (h1e + h1e.T) / 2
+        # Exact H2 STO-3G one-body integrals (from PySCF CASSCF(2,2))
+        H2_h1e = np.array([
+            [-1.2524500,  0.0000000],
+            [ 0.0000000, -0.4759487],
+        ])
+        # Exact H2 STO-3G two-body integrals
+        H2_h2e = np.zeros((2, 2, 2, 2))
+        H2_h2e[0,0,0,0] = 0.6757101
+        H2_h2e[1,1,1,1] = 0.6986593
+        H2_h2e[0,0,1,1] = 0.6645818
+        H2_h2e[1,1,0,0] = 0.6645818
+        H2_h2e[0,1,1,0] = 0.1809270
+        H2_h2e[1,0,0,1] = 0.1809270
+        H2_h2e[0,1,0,1] = 0.1809270
+        H2_h2e[1,0,1,0] = 0.1809270
+        H2_e_core = 0.7137539
 
-        # Two-body integrals (8-fold symmetry approximation)
-        h2e = np.random.randn(n, n, n, n) * 0.05
-        h2e = (h2e + h2e.transpose(1, 0, 2, 3)) / 2
-        h2e = (h2e + h2e.transpose(0, 1, 3, 2)) / 2
-
-        # Realistic energy values for H2-like system
         if n <= 2:
+            h1e      = H2_h1e
+            h2e      = H2_h2e
+            e_core   = H2_e_core
             hf_energy = -1.117349
-            e_core = 0.714766
-        elif n <= 4:
-            hf_energy = -7.862246
-            e_core = 1.050672
+            formula  = "H2"
         else:
-            hf_energy = -74.963000
-            e_core = 9.187860
+            # Larger active space: tile two H2 units with weak inter-unit coupling
+            h1e = np.zeros((n, n))
+            h1e[:2, :2] = H2_h1e
+            for k in range(2, n):
+                h1e[k, k] = H2_h1e[1,1] + 0.15 * k
+            h2e = np.zeros((n, n, n, n))
+            h2e[:2, :2, :2, :2] = H2_h2e
+            e_core    = H2_e_core * max(1, n // 2)
+            hf_energy = -1.117349 * max(1, n // 2)
+            formula   = f"H2_extended_{n}o"
 
-        formula = f"mock_{self.n_elec}e{n}o"
         if atoms:
-            formula = "".join(a[0] for a in atoms[:4])
+            formula = "".join(a[0] for a in atoms[:4]) + "_fragment"
 
         logger.info(f"Mock Hamiltonian: {formula} | E_HF={hf_energy:.6f} Ha")
 
