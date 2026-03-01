@@ -12,8 +12,10 @@ Solution — Gaussian Mixture Model (GMM):
   P(x) = Σ_k π_k · N(x | μ_k, Σ_k)
 
   Each Gaussian = one conformational basin.
-  Purity = how tightly members cluster around their Gaussian center.
-  We pick the highest-purity cluster and its centroid conformation.
+  Purity = mean responsibility (confidence that members belong to the cluster).
+  Compactness = 1 / (1 + within-cluster variance); higher = tighter cluster.
+  Selection score = purity × compactness (both in [0,1]).
+  Best cluster = argmax(selection score). When purity ties, compactness breaks it.
 
 Why GMM over K-means:
   GMM gives soft assignments (probabilities) — more robust.
@@ -35,18 +37,21 @@ from utils import logger
 class ClusterResult:
     best_cluster_id: int
     best_purity: float
+    best_compactness: float             # within-cluster tightness (higher = more representative)
     best_indices: np.ndarray            # indices in feature matrix
     representative_idx: int             # single best conformation
     n_clusters: int
     labels: np.ndarray
     purities: np.ndarray
+    compactness: np.ndarray             # per-cluster compactness
+    sizes: np.ndarray                   # per-cluster size
     bic: float
     converged: bool
 
     def summary(self) -> str:
         return (
             f"DISCA | best_cluster={self.best_cluster_id} | "
-            f"purity={self.best_purity:.3f} | "
+            f"purity={self.best_purity:.3f} | compactness={self.best_compactness:.3f} | "
             f"size={len(self.best_indices)} | "
             f"BIC={self.bic:.1f} | "
             f"converged={self.converged}"
@@ -252,13 +257,23 @@ class DISCAClustering:
             bic_score = gmm.bic(X)
             converged = gmm.converged_
 
-        # Compute purity per cluster
+        # Compute purity per cluster (mean responsibility → confidence)
         purities = self._compute_purities(responsibilities, labels, K)
 
-        # Best cluster = highest purity
-        best_k = int(np.argmax(purities))
+        # Compute compactness per cluster (1 / (1 + within-cluster variance))
+        # Higher compactness = tighter cluster = more representative conformation
+        compactness = self._compute_compactness(X, labels, K, gmm)
+
+        # Compute cluster sizes
+        sizes = np.array([np.sum(labels == k) for k in range(K)])
+
+        # Selection score: purity × compactness (both in [0,1], higher = better)
+        # When purity ties, compactness breaks the tie: tighter cluster wins
+        selection_score = purities * compactness
+        best_k = int(np.argmax(selection_score))
         best_indices = np.where(labels == best_k)[0]
         best_purity = float(purities[best_k])
+        best_compactness = float(compactness[best_k])
 
         if best_purity < self.purity_thresh:
             logger.warning(
@@ -272,11 +287,14 @@ class DISCAClustering:
         result = ClusterResult(
             best_cluster_id=best_k,
             best_purity=best_purity,
+            best_compactness=best_compactness,
             best_indices=best_indices,
             representative_idx=int(rep_idx),
             n_clusters=K,
             labels=labels,
             purities=purities,
+            compactness=compactness,
+            sizes=sizes,
             bic=bic_score,
             converged=converged,
         )
@@ -290,6 +308,27 @@ class DISCAClustering:
             if len(members) > 0:
                 purities[k] = float(R[members, k].mean())
         return purities
+
+    def _compute_compactness(
+        self, X: np.ndarray, labels: np.ndarray, K: int, gmm
+    ) -> np.ndarray:
+        """
+        Compactness = 1 / (1 + mean squared distance to center).
+        Higher = tighter cluster = more representative conformation.
+        Range: (0, 1], higher is better.
+        """
+        compactness = np.zeros(K)
+        for k in range(K):
+            members = np.where(labels == k)[0]
+            if len(members) > 0:
+                pts = X[members]
+                try:
+                    center = gmm.means_[k]
+                except AttributeError:
+                    center = pts.mean(axis=0)
+                mse = np.mean(np.sum((pts - center) ** 2, axis=1))
+                compactness[k] = 1.0 / (1.0 + mse)
+        return compactness
 
     def _find_representative(self, X, indices, k, gmm) -> int:
         """Find sample closest to cluster mean."""

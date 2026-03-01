@@ -128,7 +128,22 @@ Results are saved to `outputs/benchmarks/benchmark_results.json` in the same for
 
 ---
 
-## 4. Stage Logs
+## 4. Clustering Plot (`scripts/visualize_clustering.py`)
+
+When you run `python scripts/visualize_clustering.py`, a 2D scatter plot is saved to `outputs/plots/`.
+
+| Symbol | Meaning |
+|--------|---------|
+| **★ (star)** | Individual conformations in the cluster |
+| **X** | Cluster centroid (mean of conformations in feature space) |
+| **Yellow** | Chosen cluster — highest selection score (purity × compactness) |
+| **Gray** | Other clusters |
+
+A yellow box explains why the chosen cluster was selected. The representative conformation (used for the quantum simulation) is the star closest to the X in the chosen cluster.
+
+---
+
+## 5. Stage Logs
 
 Each pipeline stage prints its own messages. Examples:
 
@@ -146,7 +161,7 @@ Each pipeline stage prints its own messages. Examples:
 
 ---
 
-## 5. Where Files Are Saved
+## 6. Where Files Are Saved
 
 | Output | Location |
 |--------|----------|

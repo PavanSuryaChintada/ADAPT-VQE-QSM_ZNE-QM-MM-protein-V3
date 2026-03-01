@@ -212,6 +212,34 @@ python scripts\show_circuit.py --molecule H2 --electrons 2 --orbitals 2
 | Show circuit | `python scripts\show_circuit.py` |
 | Show circuit (full) | `python scripts\show_circuit.py --full` |
 | Simpler molecule | `python scripts\show_circuit.py --molecule H2 --electrons 2 --orbitals 2` |
+| **Visualize clustering** | `python scripts\visualize_clustering.py` |
+| Clustering (2JOF) | `python scripts\visualize_clustering.py --pdb 2JOF --save` |
+
+---
+
+## Clustering Visualization — Understanding the Plot
+
+Run `python scripts\visualize_clustering.py` to generate a 2D plot of DISCA clusters.
+
+### Symbols
+
+| Symbol | Meaning |
+|--------|---------|
+| **★ (star)** | Individual conformations — each point is one conformation from the ensemble |
+| **X** | Cluster centroid — the mean position of all conformations in that cluster |
+| **Yellow** | Chosen cluster — highlighted because it has the highest selection score |
+
+### Selection Criterion
+
+- **Selection score** = purity × compactness (both in [0,1])
+- **Purity** = mean responsibility (confidence that members belong to the cluster)
+- **Compactness** = 1 / (1 + within-cluster variance); higher = tighter cluster
+- The **chosen cluster** (yellow) is the one with the highest score
+- The **representative conformation** used for quantum simulation is the star closest to the X in the chosen cluster
+
+### Output
+
+Plot saved to `outputs/plots/clustering_{PDB}_res{residue}.png`.
 
 ---
 

@@ -16,6 +16,24 @@ A research-grade pipeline that applies **variational quantum algorithms** to com
 | [CIRCUIT_GUIDE.md](CIRCUIT_GUIDE.md) | Quantum circuit explained |
 | [TERMS_GLOSSARY.md](TERMS_GLOSSARY.md) | Term definitions |
 
+### Visualize clustering
+
+```bash
+python scripts/visualize_clustering.py
+python scripts/visualize_clustering.py --pdb 2JOF --fragment 5 --save
+```
+
+Saves a plot to `outputs/plots/clustering_{PDB}_res{N}.png` showing DISCA clusters in 2D (PCA-reduced feature space).
+
+**Plot legend:**
+| Symbol | Meaning |
+|--------|---------|
+| ★ (star) | Individual conformations in the cluster |
+| X | Cluster centroid (mean of conformations) |
+| **Yellow** | Chosen cluster (highest selection score = purity × compactness) |
+
+The representative conformation sent to quantum simulation is the star closest to the X in the chosen cluster.
+
 ---
 
 ## Problem Statement

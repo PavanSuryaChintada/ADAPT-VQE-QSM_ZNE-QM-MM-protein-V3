@@ -24,6 +24,8 @@ Alphabetical reference for terms used in the pipeline, circuits, and outputs.
 
 **BIC** — Bayesian Information Criterion. Used in DISCA clustering to choose the number of components.
 
+**Compactness** — 1 / (1 + within-cluster variance). Higher = tighter cluster = more representative conformation. Used with purity to select the best cluster.
+
 ---
 
 ## C
@@ -138,7 +140,9 @@ Alphabetical reference for terms used in the pipeline, circuits, and outputs.
 
 **PDB** — Protein Data Bank. Source of protein structures (e.g. 2I9M, 2JOF).
 
-**Purity** — DISCA cluster purity. Higher = more coherent clusters.
+**Purity** — Mean responsibility (confidence) that members belong to a DISCA cluster. Higher = more coherent.
+
+**Selection score** — purity × compactness. Best cluster = argmax(selection score). When purity ties, compactness breaks the tie (tighter cluster wins).
 
 **PySCF** — Python library for quantum chemistry. Builds Hamiltonians from molecular geometry.
 
