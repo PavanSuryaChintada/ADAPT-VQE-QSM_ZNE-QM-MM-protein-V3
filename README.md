@@ -8,6 +8,7 @@ A research-grade pipeline that applies **variational quantum algorithms** to com
 
 | Guide | Description |
 |-------|-------------|
+| [APPROACH_SIMPLE.md](APPROACH_SIMPLE.md) | Approach in plain language (what & why) |
 | [SETUP.md](SETUP.md) | Complete installation guide |
 | [PREREQUISITES.md](PREREQUISITES.md) | Python, venv, and packages |
 | [IMPLEMENTATION_GUIDE.md](IMPLEMENTATION_GUIDE.md) | Step-by-step walkthrough |
