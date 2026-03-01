@@ -33,6 +33,9 @@ def run_pipeline_and_visualize(
     from core.yopo.feature_extractor import YOPOExtractor
     from core.disca.clustering import DISCAClustering
 
+    from utils.tee_stdout import start_tee_session
+    log_path = start_tee_session("visualize_clustering")
+
     print(f"\n{'='*60}")
     print("  DISCA Clustering Visualization")
     print("="*60)
@@ -154,6 +157,7 @@ def run_pipeline_and_visualize(
         path = out_dir / f"clustering_{pdb_id}_res{center_residue}.png"
         plt.savefig(path, dpi=150)
         print(f"\n  Plot saved: {path}")
+    print(f"  Full session log: {log_path}")
 
     if show:
         plt.show()

@@ -167,7 +167,8 @@ Each pipeline stage prints its own messages. Examples:
 |--------|----------|
 | Energy results | `outputs/energies/result_{PDB}_{timestamp}.json` |
 | Benchmark results | `outputs/benchmarks/benchmark_results.json` |
-| Logs | `outputs/logs/run_{timestamp}.log` |
+| **Full session logs** | `outputs/logs/pipeline_{ts}.log`, `benchmark_{ts}.log`, `show_circuit_{ts}.log`, `visualize_clustering_{ts}.log` — all terminal output (print + logger) tee'd here |
+| Logger output | `outputs/logs/run_{timestamp}.log` (from utils logger) |
 
 ---
 

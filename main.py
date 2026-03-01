@@ -426,6 +426,8 @@ def run_benchmark(proteins: List[str], config: Config):
 
 
 if __name__ == "__main__":
+    from utils.tee_stdout import start_tee_session
+    log_path = start_tee_session("pipeline")
     args = parse_args()
 
     cfg = Config(
@@ -452,3 +454,4 @@ if __name__ == "__main__":
     else:
         pipeline = QuantumProteinPipeline(cfg)
         result = pipeline.run()
+    logger.info(f"Full session log: {log_path}")

@@ -66,6 +66,8 @@ def run_full_benchmark(proteins: List[str], config=None, output_dir: str = "outp
 
     Reference energy = exact FCI (or best CCSD(T) available).
     """
+    from utils.tee_stdout import start_tee_session
+    log_path = start_tee_session("benchmark")
     outdir = Path(output_dir)
     outdir.mkdir(parents=True, exist_ok=True)
 
@@ -152,6 +154,7 @@ def run_full_benchmark(proteins: List[str], config=None, output_dir: str = "outp
     with open(results_path, "w") as f:
         json.dump([r.to_dict() for r in all_rows], f, indent=2)
     logger.success(f"Benchmark saved: {results_path}")
+    logger.success(f"Full session log: {log_path}")
 
     return all_rows
 

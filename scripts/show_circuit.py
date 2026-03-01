@@ -439,6 +439,10 @@ Examples:
     parser.add_argument("--full",      action="store_true", help="Show every detail")
     args = parser.parse_args()
 
+    # ── Tee output to log ─────────────────────────────────────
+    from utils.tee_stdout import start_tee_session
+    log_path = start_tee_session("show_circuit")
+
     # ── Suppress logger noise ─────────────────────────────────
     import logging
     logging.getLogger("quantum_protein").setLevel(logging.ERROR)
@@ -503,6 +507,8 @@ Examples:
     print_gate_count(n_qubits, operators)
 
     print_footer(n_qubits)
+    print()
+    print(cy(f"  Full session log: {log_path}"))
 
 
 if __name__ == "__main__":
