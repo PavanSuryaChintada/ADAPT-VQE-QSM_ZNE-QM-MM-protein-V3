@@ -184,12 +184,17 @@ class PDBDownloader:
             )
 
     def _parse_pdb(self, pdb_id: str, filepath: Path) -> ProteinStructure:
-        """Parse ATOM records from PDB file."""
+        """Parse ATOM records from PDB file.
+        For NMR multi-model files, uses only the first MODEL to avoid OOM.
+        """
         structure = ProteinStructure(pdb_id=pdb_id, filepath=str(filepath))
 
         with open(filepath, "r", encoding="utf-8", errors="ignore") as f:
             for line in f:
                 record = line[:6].strip()
+                # Stop after first model in NMR structures (avoids 20× atoms)
+                if record == "ENDMDL":
+                    break
                 if record not in ("ATOM", "HETATM"):
                     continue
 

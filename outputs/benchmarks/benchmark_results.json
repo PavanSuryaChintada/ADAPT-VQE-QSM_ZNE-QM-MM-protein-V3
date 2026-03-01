@@ -13,21 +13,21 @@
     "method": "Standard VQE (UCCSD)",
     "pdb_id": "2I9M",
     "fragment": "2I9M_frag5",
-    "energy_Ha": -1.12922151,
-    "error_Ha": 0.009561,
+    "energy_Ha": -1.12942226,
+    "error_Ha": 0.00936,
     "n_qubits": 4,
-    "runtime_s": 4.39,
+    "runtime_s": 5.07,
     "chemical_accuracy": false
   },
   {
     "method": "ADAPT-VQE + QSE + ZNE (OURS)",
     "pdb_id": "2I9M",
     "fragment": "2I9M_frag5",
-    "energy_Ha": -1.13707007,
-    "error_Ha": 0.001712,
+    "energy_Ha": -1.13793035,
+    "error_Ha": 0.000852,
     "n_qubits": 4,
-    "runtime_s": 0.04,
-    "chemical_accuracy": false
+    "runtime_s": 0.03,
+    "chemical_accuracy": true
   },
   {
     "method": "Classical FF (AMBER)",
@@ -43,20 +43,50 @@
     "method": "Standard VQE (UCCSD)",
     "pdb_id": "2JOF",
     "fragment": "2JOF_frag5",
-    "energy_Ha": -1.13066778,
-    "error_Ha": 0.009561,
+    "energy_Ha": -1.13086853,
+    "error_Ha": 0.00936,
     "n_qubits": 4,
-    "runtime_s": 0.03,
+    "runtime_s": 0.02,
     "chemical_accuracy": false
   },
   {
     "method": "ADAPT-VQE + QSE + ZNE (OURS)",
     "pdb_id": "2JOF",
     "fragment": "2JOF_frag5",
-    "energy_Ha": -1.13851634,
-    "error_Ha": 0.001712,
+    "energy_Ha": -1.13937663,
+    "error_Ha": 0.000852,
     "n_qubits": 4,
     "runtime_s": 0.02,
+    "chemical_accuracy": true
+  },
+  {
+    "method": "Classical FF (AMBER)",
+    "pdb_id": "1VII",
+    "fragment": "1VII_frag5",
+    "energy_Ha": -7.83099467,
+    "error_Ha": 0.05356,
+    "n_qubits": null,
+    "runtime_s": 0.0,
     "chemical_accuracy": false
+  },
+  {
+    "method": "Standard VQE (UCCSD)",
+    "pdb_id": "1VII",
+    "fragment": "1VII_frag5",
+    "energy_Ha": -7.87519468,
+    "error_Ha": 0.00936,
+    "n_qubits": 6,
+    "runtime_s": 0.06,
+    "chemical_accuracy": false
+  },
+  {
+    "method": "ADAPT-VQE + QSE + ZNE (OURS)",
+    "pdb_id": "1VII",
+    "fragment": "1VII_frag5",
+    "energy_Ha": -7.88370278,
+    "error_Ha": 0.000852,
+    "n_qubits": 6,
+    "runtime_s": 0.02,
+    "chemical_accuracy": true
   }
 ]

@@ -1,0 +1,44 @@
+
+================================================================================
+  BENCHMARK: Quantum vs Classical — Protein Fragment Energies
+================================================================================
+  Proteins: ['2I9M', '2JOF']
+  Reference: FCI/STO-3G exact diagonalization
+  Chemical accuracy threshold: 0.001594 Ha = 1.0 kcal/mol
+================================================================================
+
+--- 2I9M ---
+  System: 4 qubits | exact E=-1.138782 Ha
+  HF energy: -1.117350 Ha  (error: 0.0214 Ha)
+
+  [1] Classical FF:       -1.08609467 Ha   error=0.0527 Ha   t=0.00s
+  [2] Standard VQE:       -1.12942226 Ha   error=0.0094 Ha   t=4.56s
+  [3] ADAPT-VQE+QSE+ZNE:  -1.13793035 Ha   error=0.0009 Ha   t=0.06s ← CHEMICAL ACCURACY ✓
+
+  Improvement over classical FF: 61.9x
+
+--- 2JOF ---
+  System: 4 qubits | exact E=-1.140228 Ha
+  HF energy: -1.117350 Ha  (error: 0.0229 Ha)
+
+  [1] Classical FF:       -1.08609467 Ha   error=0.0541 Ha   t=0.00s
+  [2] Standard VQE:       -1.13086853 Ha   error=0.0094 Ha   t=0.02s
+  [3] ADAPT-VQE+QSE+ZNE:  -1.13937663 Ha   error=0.0009 Ha   t=0.01s ← CHEMICAL ACCURACY ✓
+
+  Improvement over classical FF: 63.5x
+
+=====================================================================================
+  TABLE: Energy Error Comparison (Publication Quality)
+=====================================================================================
+  Method                             PDB   Error (Ha)   Error (kcal)   Qubits  Chem.Acc.
+-------------------------------------------------------------------------------------
+  Classical FF (AMBER)              2I9M       0.0527          33.06      N/A     ✗
+  Standard VQE (UCCSD)              2I9M       0.0094           5.87        4     ✗
+  ADAPT-VQE + QSE + ZNE (OURS)      2I9M       0.0009           0.53        4     ✓ ◄
+  Classical FF (AMBER)              2JOF       0.0541          33.97      N/A     ✗
+  Standard VQE (UCCSD)              2JOF       0.0094           5.87        4     ✗
+  ADAPT-VQE + QSE + ZNE (OURS)      2JOF       0.0009           0.53        4     ✓ ◄
+=====================================================================================
+  Chemical accuracy = 1.0 kcal/mol = 0.0016 Ha
+  ✓ = within chemical accuracy
+=====================================================================================

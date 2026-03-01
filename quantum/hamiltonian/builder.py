@@ -32,6 +32,7 @@ Active space selection (CRITICAL — controls qubit count):
 """
 
 import sys
+from collections import Counter
 import numpy as np
 from pathlib import Path
 from typing import List, Tuple, Optional
@@ -180,7 +181,19 @@ class QMMMHamiltonianBuilder:
         mol.verbose = 0
         mol.build()
 
-        mol_formula = mol.formula
+        # Compute molecular formula (PySCF Mole has no .formula attribute)
+        counts = Counter(a[0] for a in atoms)
+        elem_order = ("C", "H", "N", "O", "S", "P", "F", "Cl", "Br", "I")
+        parts = []
+        for elem in elem_order:
+            if elem in counts:
+                n = counts[elem]
+                parts.append(f"{elem}{n}" if n > 1 else elem)
+        for elem in sorted(counts):
+            if elem not in elem_order:
+                n = counts[elem]
+                parts.append(f"{elem}{n}" if n > 1 else elem)
+        mol_formula = "".join(parts) if parts else "fragment"
 
         # 2. Hartree-Fock (with optional MM embedding)
         if mm_coords is not None and mm_charges is not None and len(mm_charges) > 0:

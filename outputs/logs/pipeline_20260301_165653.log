@@ -1,0 +1,20 @@
+Traceback (most recent call last):
+  File "/mnt/c/Users/praveeeee/Desktop/qq protein/quantum_protein_v3-3/main.py", line 471, in <module>
+    result = pipeline.run()
+             ^^^^^^^^^^^^^^
+  File "/mnt/c/Users/praveeeee/Desktop/qq protein/quantum_protein_v3-3/main.py", line 141, in run
+    h_data = self._stage45(qm_frag, mm_coords, mm_charges)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/mnt/c/Users/praveeeee/Desktop/qq protein/quantum_protein_v3-3/main.py", line 272, in _stage45
+    h_data = builder.build(atoms, mm_coords, mm_charges)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/mnt/c/Users/praveeeee/Desktop/qq protein/quantum_protein_v3-3/quantum/hamiltonian/builder.py", line 151, in build
+    return self._build_pyscf(atoms, mm_coords, mm_charges)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/mnt/c/Users/praveeeee/Desktop/qq protein/quantum_protein_v3-3/quantum/hamiltonian/builder.py", line 183, in _build_pyscf
+    mol_formula = mol.formula
+                  ^^^^^^^^^^^
+  File "/mnt/c/Users/praveeeee/Desktop/qq protein/quantum_protein_v3-3/venv/lib/python3.12/site-packages/pyscf/gto/mole.py", line 3813, in __getattr__
+    return object.__getattribute__(self, key)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AttributeError: 'Mole' object has no attribute 'formula'
