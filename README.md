@@ -4,6 +4,20 @@ A research-grade pipeline that applies **variational quantum algorithms** to com
 
 ---
 
+## Documentation
+
+| Guide | Description |
+|-------|-------------|
+| [SETUP.md](SETUP.md) | Complete installation guide |
+| [PREREQUISITES.md](PREREQUISITES.md) | Python, venv, and packages |
+| [IMPLEMENTATION_GUIDE.md](IMPLEMENTATION_GUIDE.md) | Step-by-step walkthrough |
+| [TROUBLESHOOTING.md](TROUBLESHOOTING.md) | Common errors and fixes |
+| [OUTPUT_GUIDE.md](OUTPUT_GUIDE.md) | Understanding pipeline output |
+| [CIRCUIT_GUIDE.md](CIRCUIT_GUIDE.md) | Quantum circuit explained |
+| [TERMS_GLOSSARY.md](TERMS_GLOSSARY.md) | Term definitions |
+
+---
+
 ## Problem Statement
 
 Understanding protein stability and folding requires accurate electronic structure calculations. Classical methods face a fundamental trade-off:
