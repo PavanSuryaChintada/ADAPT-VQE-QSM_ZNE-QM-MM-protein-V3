@@ -8,14 +8,14 @@ A research-grade pipeline that applies **variational quantum algorithms** to com
 
 | Guide | Description |
 |-------|-------------|
-| [APPROACH_SIMPLE.md](APPROACH_SIMPLE.md) | Approach in plain language (what & why) |
-| [SETUP.md](SETUP.md) | Complete installation guide |
-| [PREREQUISITES.md](PREREQUISITES.md) | Python, venv, and packages |
-| [IMPLEMENTATION_GUIDE.md](IMPLEMENTATION_GUIDE.md) | Step-by-step walkthrough |
-| [TROUBLESHOOTING.md](TROUBLESHOOTING.md) | Common errors and fixes |
-| [OUTPUT_GUIDE.md](OUTPUT_GUIDE.md) | Understanding pipeline output |
-| [CIRCUIT_GUIDE.md](CIRCUIT_GUIDE.md) | Quantum circuit explained |
-| [TERMS_GLOSSARY.md](TERMS_GLOSSARY.md) | Term definitions |
+| [APPROACH_SIMPLE.md](docs/APPROACH_SIMPLE.md) | Approach in plain language (what & why) |
+| [SETUP.md](docs/SETUP.md) | Complete installation guide |
+| [PREREQUISITES.md](docs/PREREQUISITES.md) | Python, venv, and packages |
+| [IMPLEMENTATION_GUIDE.md](docs/IMPLEMENTATION_GUIDE.md) | Step-by-step walkthrough |
+| [TROUBLESHOOTING.md](docs/TROUBLESHOOTING.md) | Common errors and fixes |
+| [OUTPUT_GUIDE.md](docs/OUTPUT_GUIDE.md) | Understanding pipeline output |
+| [CIRCUIT_GUIDE.md](docs/CIRCUIT_GUIDE.md) | Quantum circuit explained |
+| [TERMS_GLOSSARY.md](docs/TERMS_GLOSSARY.md) | Term definitions |
 
 ### Visualize clustering
 
@@ -141,7 +141,7 @@ pip install pyscf
 pip install biopython loguru rich pyyaml h5py
 ```
 
-See [PREREQUISITES.md](PREREQUISITES.md), [IMPLEMENTATION_GUIDE.md](IMPLEMENTATION_GUIDE.md), and [TROUBLESHOOTING.md](TROUBLESHOOTING.md) for setup, walkthrough, and errors. See [OUTPUT_GUIDE.md](OUTPUT_GUIDE.md), [CIRCUIT_GUIDE.md](CIRCUIT_GUIDE.md), and [TERMS_GLOSSARY.md](TERMS_GLOSSARY.md) for outputs, circuits, and term definitions.
+See [PREREQUISITES.md](docs/PREREQUISITES.md), [IMPLEMENTATION_GUIDE.md](docs/IMPLEMENTATION_GUIDE.md), and [TROUBLESHOOTING.md](docs/TROUBLESHOOTING.md) for setup, walkthrough, and errors. See [OUTPUT_GUIDE.md](docs/OUTPUT_GUIDE.md), [CIRCUIT_GUIDE.md](docs/CIRCUIT_GUIDE.md), and [TERMS_GLOSSARY.md](docs/TERMS_GLOSSARY.md) for outputs, circuits, and term definitions.
 
 ### Run the Pipeline
 
@@ -265,7 +265,16 @@ quantum_protein_v3-3/
 │   ├── benchmarks/            # Benchmark JSON
 │   └── logs/
 ├── README.md
-└── SETUP.md
+└── docs/
+    ├── APPROACH_SIMPLE.md
+    ├── CIRCUIT_GUIDE.md
+    ├── IMPLEMENTATION_GUIDE.md
+    ├── OUTPUT_GUIDE.md
+    ├── PREREQUISITES.md
+    ├── SETUP.md
+    ├── TERMS_GLOSSARY.md
+    ├── TROUBLESHOOTING.md
+    └── WSL_SETUP.md
 ```
 
 ### File Roles (by Pipeline Stage)

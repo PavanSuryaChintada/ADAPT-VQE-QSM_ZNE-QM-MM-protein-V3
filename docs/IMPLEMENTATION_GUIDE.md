@@ -263,4 +263,4 @@ See [TROUBLESHOOTING.md](TROUBLESHOOTING.md) for detailed fixes.
 - **Prerequisites:** [PREREQUISITES.md](PREREQUISITES.md)
 - **Troubleshooting:** [TROUBLESHOOTING.md](TROUBLESHOOTING.md)
 - **Setup details:** [SETUP.md](SETUP.md)
-- **Project overview:** [README.md](README.md)
+- **Project overview:** [README.md](../README.md)
