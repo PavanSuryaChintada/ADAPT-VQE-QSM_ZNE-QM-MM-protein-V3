@@ -1,6 +1,8 @@
 # Python
 venv/
+.env/
 __pycache__/
+**/__pycache__/
 *.py[cod]
 *$py.class
 *.so
@@ -13,8 +15,9 @@ eggs/
 *.manifest
 *.spec
 
-# Data (downloaded PDB files)
+# Data (downloaded PDB files — users run pipeline to fetch)
 data/raw/*.pdb
+data/raw/*.cif
 
 # Environment
 .env
