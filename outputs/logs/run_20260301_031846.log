@@ -1,0 +1,17 @@
+2026-03-01 03:18:46,832 | WARNING | PySCF not installed.
+  → Pipeline runs in MOCK MODE (pre-computed integrals).
+  → For real results: pip install pyscf  (or use WSL2 on Windows).
+2026-03-01 03:18:46,838 | INFO | QMMMBuilder: basis=sto-3g | (2e, 2o) | 4 qubits before parity reduction
+2026-03-01 03:18:46,838 | INFO | Mock Hamiltonian: mock_2e2o | E_HF=-1.117349 Ha
+2026-03-01 03:18:46,838 | INFO | Qubit mapping: (2e, 2o) | method=jordan_wigner | spin-orbitals=4
+2026-03-01 03:18:46,838 | INFO | ✓ QubitHamiltonian | method=jordan_wigner | n_qubits=4 | n_terms=13 | constant=0.714766
+2026-03-01 03:18:48,030 | INFO | OperatorPool: 4 qubits, 2 electrons, 0 operators
+2026-03-01 03:18:48,030 | INFO | ADAPTVQESolver: 4 qubits | dim=16 | pool=0 ops | max_iter=20
+2026-03-01 03:18:48,031 | INFO | Starting ADAPT-VQE...
+2026-03-01 03:18:48,031 | WARNING | Operator pool is empty — returning HF energy
+2026-03-01 03:18:48,040 | INFO | QSE: VQE energy = 1.62858391 Ha
+2026-03-01 03:18:48,041 | DEBUG | QSE subspace dimension: 5
+2026-03-01 03:18:48,047 | INFO | ✓ QSE | E_VQE=1.62858391 Ha | E_QSE=-0.00000000 Ha | ΔE=-1.62858391 Ha
+2026-03-01 03:18:48,054 | INFO | NoiseMitigation (ZNE_Richardson) | E_raw=1.62858391 Ha | E_mitigated=2.56912486 Ha | correction=+0.940541 Ha
+2026-03-01 03:18:48,060 | INFO | FreeEnergyCalculator: T=310.0K
+2026-03-01 03:18:48,060 | INFO | [test] @ 310K | E=1.628584 Ha | G=1.628584 Ha (1021.952 kcal/mol) | S_VN=-0.0000 | UNSTABLE

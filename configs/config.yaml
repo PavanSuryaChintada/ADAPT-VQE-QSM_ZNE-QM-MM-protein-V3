@@ -1,0 +1,164 @@
+# ============================================================
+# quantum_protein — Master Configuration File
+# Edit this file to change any parameter without touching code
+# ============================================================
+
+project:
+  name: "Hybrid Quantum-Classical Protein Fragment Solver"
+  version: "1.0.0"
+  random_seed: 42
+  log_level: "INFO"
+
+# ------------------------------------------------------------
+# HARDWARE (your AMD Ryzen 5 5500U, 16GB RAM, Windows 11)
+# ------------------------------------------------------------
+hardware:
+  max_qubits: 12          # SAFE limit for 16GB RAM
+  n_cpu_cores: 6          # your Ryzen core count
+  ram_gb: 16
+  backend: "aer_simulator"  # Qiskit local simulator (no IBM account needed)
+
+# ------------------------------------------------------------
+# BENCHMARK PROTEINS — Best choices for your project
+# ------------------------------------------------------------
+# PRIORITY ORDER:
+#   1. 2I9M — Chignolin (10 res)  ← START HERE, NISQ gold standard
+#   2. 2JOF — Trp-cage (20 res)   ← IBM benchmark protein
+#   3. 1VII — Villin HP35 (35 res) ← harder, more paper impact
+#   4. 1CRN — Crambin (46 res)     ← high resolution X-ray
+#   5. 1UBQ — Ubiquitin (76 res)   ← use fragments only
+# ------------------------------------------------------------
+proteins:
+  primary:
+    - pdb_id: "2I9M"
+      name: "Chignolin"
+      n_residues: 10
+      fragment_center: 5
+      fragment_neighbors: 2
+      reason: "Smallest stable beta-hairpin. NISQ benchmark. Start here."
+
+    - pdb_id: "2JOF"
+      name: "Trp-cage"
+      n_residues: 20
+      fragment_center: 5
+      fragment_neighbors: 2
+      reason: "IBM quantum protein folding benchmark paper used this."
+
+  secondary:
+    - pdb_id: "1VII"
+      name: "Villin Headpiece HP35"
+      n_residues: 35
+      fragment_center: 5
+      fragment_neighbors: 2
+      reason: "Fast-folding, many MD simulation datasets available."
+
+    - pdb_id: "1CRN"
+      name: "Crambin"
+      n_residues: 46
+      fragment_center: 5
+      fragment_neighbors: 2
+      reason: "Highest resolution X-ray structure, very stable."
+
+# ------------------------------------------------------------
+# STAGE 2 — YOPO Feature Extraction
+# ------------------------------------------------------------
+yopo:
+  n_eigenvalues: 10
+  n_distance_bins: 20
+  contact_threshold_angstrom: 8.0
+  use_laplacian: true
+  use_rdf: true
+
+# ------------------------------------------------------------
+# STAGE 3 — DISCA Clustering
+# ------------------------------------------------------------
+disca:
+  n_components: 3
+  purity_threshold: 0.80
+  covariance_type: "full"
+  max_iter: 200
+  random_state: 42
+  use_pca: true
+  pca_components: 10
+
+# ------------------------------------------------------------
+# STAGE 4+5 — QM/MM + Hamiltonian
+# *** CRITICAL: active space controls qubit count ***
+# active_electrons / active_orbitals → n_qubits = 2 * orbitals
+#
+# Safe configs for your 16GB RAM:
+#   4e / 4o → 8 qubits   (very safe, good for testing)
+#   4e / 4o → 6 qubits   (parity mapping saves 2)
+#   6e / 6o → 12 qubits  (manageable)
+#   7e / 7o → 14 qubits  (hard, only if RAM free)
+# ------------------------------------------------------------
+hamiltonian:
+  basis_set: "sto-3g"      # minimal basis — safe for 8-12 qubits
+  charge: 0
+  spin: 0
+  active_electrons: 4      # ← KEEP AT 4 to start
+  active_orbitals: 4       # ← KEEP AT 4 to start
+  max_qm_atoms: 15
+  mm_cutoff_angstrom: 10.0
+
+# ------------------------------------------------------------
+# STAGE 6 — Qubit Mapping
+# parity saves 2 qubits vs jordan_wigner — use it
+# ------------------------------------------------------------
+mapping:
+  method: "parity"              # saves 2 qubits on your hardware
+  two_qubit_reduction: true
+
+# ------------------------------------------------------------
+# STAGE 7 — ADAPT-VQE
+# ------------------------------------------------------------
+adapt_vqe:
+  max_iterations: 50
+  gradient_threshold: 1.0e-3   # operator selection cutoff
+  convergence_threshold: 1.0e-6
+  shots: 1024
+  reference: "hartree_fock"
+
+# ------------------------------------------------------------
+# STAGE 8 — Natural Gradient Optimization
+# ------------------------------------------------------------
+natural_gradient:
+  learning_rate: 0.01
+  regularization: 1.0e-4      # QFIM Tikhonov regularization
+  max_iterations: 200
+  convergence_threshold: 1.0e-6
+
+# ------------------------------------------------------------
+# STAGE 9 — QSE Refinement
+# ------------------------------------------------------------
+qse:
+  n_expansion_operators: 4
+  condition_threshold: 1.0e-8  # eigenvalue cutoff
+
+# ------------------------------------------------------------
+# STAGE 10 — Noise Mitigation
+# ------------------------------------------------------------
+noise_mitigation:
+  use_zne: true
+  scale_factors: [1.0, 2.0, 3.0]
+  extrapolation: "richardson"
+  use_pauli_twirling: true
+  n_twirl_samples: 10
+  use_symmetry_verification: true
+
+# ------------------------------------------------------------
+# STAGE 11 — Thermodynamics
+# ------------------------------------------------------------
+thermodynamics:
+  temperature_K: 310.0         # physiological / body temperature
+  entropy_method: "von_neumann"
+
+# ------------------------------------------------------------
+# OUTPUT
+# ------------------------------------------------------------
+output:
+  save_json: true
+  save_plots: true
+  save_circuits: false         # set true to save quantum circuits
+  results_dir: "outputs/"
+  benchmark_vs_classical: true

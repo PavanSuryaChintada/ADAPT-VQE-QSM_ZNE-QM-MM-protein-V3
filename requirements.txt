@@ -1,0 +1,42 @@
+# ============================================================
+# quantum_protein — requirements.txt
+# Plain Python (no Anaconda needed)
+#
+# INSTALL ORDER MATTERS — run exactly as shown in SETUP.md
+# ============================================================
+
+# ── Core Scientific Stack ────────────────────────────────────
+numpy==1.26.4
+scipy==1.13.0
+matplotlib==3.9.0
+pandas==2.2.2
+scikit-learn==1.5.0
+
+# ── Quantum Computing ────────────────────────────────────────
+qiskit==0.45.3
+qiskit-aer==0.13.3
+qiskit-algorithms==0.3.0
+qiskit-nature==0.7.2
+
+# ── Quantum Chemistry ────────────────────────────────────────
+# NOTE: PySCF works on Linux/macOS natively.
+# On Windows 11: use WSL2 (Windows Subsystem for Linux)
+# OR install via: pip install pyscf  (may need Visual C++ build tools)
+pyscf==2.5.0
+openfermion==1.6.1
+openfermionpyscf==0.5
+
+# ── Noise Mitigation ─────────────────────────────────────────
+mitiq==0.36.0
+
+# ── Protein Biology ──────────────────────────────────────────
+biopython==1.83
+
+# ── Utilities ────────────────────────────────────────────────
+loguru==0.7.2
+pyyaml==6.0.1
+click==8.1.7
+rich==13.7.1
+tqdm==4.66.4
+joblib==1.4.2
+h5py==3.11.0

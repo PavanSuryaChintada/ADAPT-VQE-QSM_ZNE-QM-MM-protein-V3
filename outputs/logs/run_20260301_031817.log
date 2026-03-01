@@ -1,0 +1,13 @@
+2026-03-01 03:18:17,547 | INFO | DISCA: clustering 60 conformations, 34 features, K=3
+2026-03-01 03:18:17,548 | DEBUG | PCA: 34 → 10 dimensions
+2026-03-01 03:18:21,525 | INFO | ✓ DISCA | best_cluster=0 | purity=1.000 | size=20 | BIC=1130.3 | converged=True
+2026-03-01 03:18:21,535 | WARNING | PySCF not installed.
+  → Pipeline runs in MOCK MODE (pre-computed integrals).
+  → For real results: pip install pyscf  (or use WSL2 on Windows).
+2026-03-01 03:18:21,536 | INFO | QMMMBuilder: basis=sto-3g | (2e, 2o) | 4 qubits before parity reduction
+2026-03-01 03:18:21,537 | INFO | Mock Hamiltonian: mock_2e2o | E_HF=-1.117349 Ha
+2026-03-01 03:18:21,544 | INFO | Qubit mapping: (2e, 2o) | method=jordan_wigner | spin-orbitals=4
+2026-03-01 03:18:21,544 | INFO | ✓ QubitHamiltonian | method=jordan_wigner | n_qubits=4 | n_terms=13 | constant=0.714766
+2026-03-01 03:18:21,555 | INFO | OperatorPool: 4 qubits, 2 electrons, 0 operators
+2026-03-01 03:18:21,555 | INFO | ADAPTVQESolver: 4 qubits | dim=16 | pool=0 ops | max_iter=15
+2026-03-01 03:18:21,555 | INFO | Starting ADAPT-VQE...

@@ -1,0 +1,13 @@
+2026-03-01 08:27:31,559 | WARNING | PySCF not installed.
+  → Pipeline runs in MOCK MODE (pre-computed integrals).
+  → For real results: pip install pyscf  (or use WSL2 on Windows).
+2026-03-01 08:27:32,871 | INFO | QMMMBuilder: basis=sto-3g | (4e, 4o) | 8 qubits before parity reduction
+2026-03-01 08:27:32,871 | INFO | Mock Hamiltonian: mock_4e4o | E_HF=-7.862246 Ha
+2026-03-01 08:27:32,871 | INFO | Qubit mapping: (4e, 4o) | method=parity | spin-orbitals=8
+2026-03-01 08:27:32,871 | INFO | ✓ QubitHamiltonian | method=parity | n_qubits=6 | n_terms=25 | constant=1.050672
+2026-03-01 08:27:32,936 | INFO | OperatorPool: 6 qubits, 3 electrons (eff), 9 operators
+2026-03-01 08:27:32,936 | INFO | ADAPTVQESolver: 6 qubits | dim=64 | pool=9 ops | max_iter=20
+2026-03-01 08:27:32,936 | INFO | Starting ADAPT-VQE...
+2026-03-01 08:27:32,938 | INFO |   ADAPT iter   1 | E = +0.63213921 Ha | |g|_max = 1.12e-01
+2026-03-01 08:27:32,960 | INFO |   ADAPT iter   2 | E = +0.63213921 Ha | |g|_max = 1.12e-01
+2026-03-01 08:27:32,976 | INFO | ✓ Energy convergence: ΔE=0.00e+00

@@ -1,0 +1,3 @@
+2026-03-01 03:19:44,738 | WARNING | PySCF not installed.
+  → Pipeline runs in MOCK MODE (pre-computed integrals).
+  → For real results: pip install pyscf  (or use WSL2 on Windows).

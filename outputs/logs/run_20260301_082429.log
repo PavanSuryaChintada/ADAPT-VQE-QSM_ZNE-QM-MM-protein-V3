@@ -1,0 +1,8 @@
+2026-03-01 08:24:29,234 | WARNING | PySCF not installed.
+  → Pipeline runs in MOCK MODE (pre-computed integrals).
+  → For real results: pip install pyscf  (or use WSL2 on Windows).
+2026-03-01 08:24:30,260 | INFO | QMMMBuilder: basis=sto-3g | (4e, 4o) | 8 qubits before parity reduction
+2026-03-01 08:24:30,260 | INFO | Mock Hamiltonian: mock_4e4o | E_HF=-7.862246 Ha
+2026-03-01 08:24:30,260 | INFO | Qubit mapping: (4e, 4o) | method=parity | spin-orbitals=8
+2026-03-01 08:24:30,261 | INFO | ✓ QubitHamiltonian | method=parity | n_qubits=6 | n_terms=25 | constant=1.050672
+2026-03-01 08:24:30,277 | INFO | OperatorPool: 6 qubits, 3 electrons (eff), 9 operators
