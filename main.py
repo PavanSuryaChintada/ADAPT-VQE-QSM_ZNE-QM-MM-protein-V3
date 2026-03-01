@@ -241,7 +241,7 @@ class QuantumProteinPipeline:
     def _stage45(self, qm_frag, mm_coords, mm_charges):
         logger.info("\n[STAGE 4+5] QM/MM + Hamiltonian Construction")
         t = time.time()
-        from quantum.hamiltonian.builder import QMMMHamiltonianBuilder, FragmentExtractor as FE
+        from quantum.hamiltonian.builder import QMMMHamiltonianBuilder
 
         builder = QMMMHamiltonianBuilder(
             basis=self.config.basis,

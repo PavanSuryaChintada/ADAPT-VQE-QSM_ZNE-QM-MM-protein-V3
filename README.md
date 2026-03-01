@@ -108,7 +108,7 @@ pip install pyscf
 pip install biopython loguru rich pyyaml h5py
 ```
 
-See [SETUP.md](SETUP.md) for detailed installation and troubleshooting.
+See [PREREQUISITES.md](PREREQUISITES.md), [IMPLEMENTATION_GUIDE.md](IMPLEMENTATION_GUIDE.md), and [TROUBLESHOOTING.md](TROUBLESHOOTING.md) for setup, walkthrough, and errors. See [OUTPUT_GUIDE.md](OUTPUT_GUIDE.md), [CIRCUIT_GUIDE.md](CIRCUIT_GUIDE.md), and [TERMS_GLOSSARY.md](TERMS_GLOSSARY.md) for outputs, circuits, and term definitions.
 
 ### Run the Pipeline
 

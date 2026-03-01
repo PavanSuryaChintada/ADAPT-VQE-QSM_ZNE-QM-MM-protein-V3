@@ -1,0 +1,31 @@
+{
+  "pdb_id": "2I9M",
+  "fragment_id": "2I9M_res5",
+  "n_qubits_used": 6,
+  "n_atoms_qm": 400,
+  "n_atoms_mm": 4460,
+  "hf_energy": -7.862246,
+  "vqe_energy": 0.6321392101430144,
+  "qse_energy": -1.269062408168289e-24,
+  "mitigated_energy": 0.9029193085560614,
+  "free_energy": 0.9029193085560614,
+  "free_energy_kcal": 566.590353560429,
+  "vqe_converged": true,
+  "vqe_n_params": 1,
+  "vqe_n_iterations": 2,
+  "qse_correction": -0.6321392101430144,
+  "noise_correction": 0.9029193085560614,
+  "runtime_seconds": 9.130808591842651,
+  "timestamp": "20260301_152329",
+  "stage_times": {
+    "stage1": 0.11697793006896973,
+    "stage2": 0.07152342796325684,
+    "stage3": 5.039333343505859,
+    "stage45": 3.6248013973236084,
+    "stage6": 0.016628265380859375,
+    "stage7": 0.1302330493927002,
+    "stage89": 0.06304335594177246,
+    "stage10": 0.03865623474121094,
+    "stage11": 0.015995025634765625
+  }
+}

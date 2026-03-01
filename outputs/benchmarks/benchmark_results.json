@@ -1,0 +1,62 @@
+[
+  {
+    "method": "Classical FF (AMBER)",
+    "pdb_id": "2I9M",
+    "fragment": "2I9M_frag5",
+    "energy_Ha": -1.08609467,
+    "error_Ha": 0.052688,
+    "n_qubits": null,
+    "runtime_s": 0.0,
+    "chemical_accuracy": false
+  },
+  {
+    "method": "Standard VQE (UCCSD)",
+    "pdb_id": "2I9M",
+    "fragment": "2I9M_frag5",
+    "energy_Ha": -1.12922151,
+    "error_Ha": 0.009561,
+    "n_qubits": 4,
+    "runtime_s": 4.39,
+    "chemical_accuracy": false
+  },
+  {
+    "method": "ADAPT-VQE + QSE + ZNE (OURS)",
+    "pdb_id": "2I9M",
+    "fragment": "2I9M_frag5",
+    "energy_Ha": -1.13707007,
+    "error_Ha": 0.001712,
+    "n_qubits": 4,
+    "runtime_s": 0.04,
+    "chemical_accuracy": false
+  },
+  {
+    "method": "Classical FF (AMBER)",
+    "pdb_id": "2JOF",
+    "fragment": "2JOF_frag5",
+    "energy_Ha": -1.08609467,
+    "error_Ha": 0.054134,
+    "n_qubits": null,
+    "runtime_s": 0.0,
+    "chemical_accuracy": false
+  },
+  {
+    "method": "Standard VQE (UCCSD)",
+    "pdb_id": "2JOF",
+    "fragment": "2JOF_frag5",
+    "energy_Ha": -1.13066778,
+    "error_Ha": 0.009561,
+    "n_qubits": 4,
+    "runtime_s": 0.03,
+    "chemical_accuracy": false
+  },
+  {
+    "method": "ADAPT-VQE + QSE + ZNE (OURS)",
+    "pdb_id": "2JOF",
+    "fragment": "2JOF_frag5",
+    "energy_Ha": -1.13851634,
+    "error_Ha": 0.001712,
+    "n_qubits": 4,
+    "runtime_s": 0.02,
+    "chemical_accuracy": false
+  }
+]

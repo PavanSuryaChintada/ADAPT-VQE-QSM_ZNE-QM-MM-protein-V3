@@ -1,0 +1,31 @@
+{
+  "pdb_id": "2JOF",
+  "fragment_id": "2JOF_res5",
+  "n_qubits_used": 6,
+  "n_atoms_qm": 560,
+  "n_atoms_mm": 7392,
+  "hf_energy": -7.862246,
+  "vqe_energy": 0.6321392101430144,
+  "qse_energy": -1.269062408168289e-24,
+  "mitigated_energy": 0.9029193085560614,
+  "free_energy": 0.9029193085560614,
+  "free_energy_kcal": 566.590353560429,
+  "vqe_converged": true,
+  "vqe_n_params": 1,
+  "vqe_n_iterations": 2,
+  "qse_correction": -0.6321392101430144,
+  "noise_correction": 0.9029193085560614,
+  "runtime_seconds": 8.611278057098389,
+  "timestamp": "20260301_152455",
+  "stage_times": {
+    "stage1": 0.14464330673217773,
+    "stage2": 0.14515256881713867,
+    "stage3": 4.610533237457275,
+    "stage45": 3.527843952178955,
+    "stage6": 0.0110015869140625,
+    "stage7": 0.10040974617004395,
+    "stage89": 0.036744117736816406,
+    "stage10": 0.006998538970947266,
+    "stage11": 0.017946720123291016
+  }
+}
