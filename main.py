@@ -147,7 +147,7 @@ class QuantumProteinPipeline:
         vqe_result = self._stage7(qubit_h, h_data)
 
         # ─── Stage 8+9: NatGrad + QSE ───────────────────────
-        qse_result = self._stage89(vqe_result, qubit_h)
+        qse_result = self._stage89(vqe_result, qubit_h, h_data)
 
         # ─── Stage 10: Noise ────────────────────────────────
         noise_result = self._stage10(qse_result)
@@ -292,7 +292,7 @@ class QuantumProteinPipeline:
 
         solver = ADAPTVQESolver(
             qubit_hamiltonian=qubit_h,
-            n_electrons=self.config.active_electrons,
+            n_electrons=h_data.n_electrons,  # use actual from Hamiltonian
             max_iterations=self.config.max_adapt_iterations,
             gradient_threshold=self.config.gradient_threshold,
             convergence_threshold=self.config.convergence_threshold,
@@ -302,7 +302,7 @@ class QuantumProteinPipeline:
         self._stage_times["stage7"] = time.time() - t
         return result
 
-    def _stage89(self, vqe_result, qubit_h):
+    def _stage89(self, vqe_result, qubit_h, h_data):
         logger.info("\n[STAGE 8+9] Natural Gradient + QSE")
         t = time.time()
         from quantum.optimization.natural_gradient import QSERefinement
@@ -312,7 +312,7 @@ class QuantumProteinPipeline:
         result = qse.refine(
             vqe_result, H_mat,
             n_qubits=qubit_h.n_qubits,
-            n_electrons=self.config.active_electrons,
+            n_electrons=h_data.n_electrons,
         )
         logger.info(result.summary())
         self._stage_times["stage89"] = time.time() - t

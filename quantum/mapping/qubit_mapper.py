@@ -69,7 +69,25 @@ class QubitHamiltonian:
         """Build full (2^n, 2^n) Hamiltonian matrix."""
         dim = 2 ** self.n_qubits
         H = np.zeros((dim, dim), dtype=complex)
+
+        # Sum all identity term coefficients from the terms list
+        identity_sum = 0.0
+        non_identity_terms = []
         for pauli_str, coeff in self.terms:
+            if all(p == 'I' for p in pauli_str):
+                identity_sum += float(coeff.real if hasattr(coeff, 'real') else coeff)
+            else:
+                non_identity_terms.append((pauli_str, coeff))
+
+        # Use identity_constant if no identity terms found in list
+        if abs(identity_sum) < 1e-10:
+            identity_sum = self.identity_constant
+
+        # Add identity (constant) contribution
+        H += identity_sum * np.eye(dim, dtype=complex)
+
+        # Add all non-identity Pauli terms
+        for pauli_str, coeff in non_identity_terms:
             if abs(coeff) < 1e-14:
                 continue
             H += coeff * pauli_string_to_matrix(pauli_str)

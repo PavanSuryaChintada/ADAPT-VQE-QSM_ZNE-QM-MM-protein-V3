@@ -176,10 +176,37 @@ class QMMMHamiltonianBuilder:
         mol = gto.Mole()
         mol.atom = atoms
         mol.basis = self.basis
-        mol.charge = self.charge
-        mol.spin = self.spin
         mol.verbose = 0
+
+        # Count electrons to determine correct charge and spin
+        from pyscf.data.elements import charge as _atomic_charge
+        n_elec_neutral = sum(_atomic_charge(a[0]) for a in atoms)
+
+        # We need total electrons to be even for CASSCF
+        # Adjust charge by +1 or -1 if needed
+        n_elec_with_charge = n_elec_neutral - self.charge
+        if n_elec_with_charge % 2 == 0:
+            # Already even, use as-is
+            mol.charge = self.charge
+            mol.spin = 0
+        else:
+            # Odd total electrons — add +1 charge to remove one electron
+            # This makes total electrons even → core electrons even
+            mol.charge = self.charge + 1
+            mol.spin = 0
+            logger.info(
+                f"Fragment has {n_elec_with_charge} electrons (odd). "
+                f"Setting charge=+1 → {n_elec_with_charge - 1} electrons "
+                f"(even) for CASSCF compatibility."
+            )
+
         mol.build()
+
+        # Verify electron count is now even
+        assert mol.nelectron % 2 == 0, (
+            f"Still odd electrons ({mol.nelectron}) after charge fix. "
+            f"Try charge={self.charge + 2}"
+        )
 
         # Compute molecular formula (PySCF Mole has no .formula attribute)
         counts = Counter(a[0] for a in atoms)
@@ -217,15 +244,30 @@ class QMMMHamiltonianBuilder:
         hf_energy = float(mf.e_tot)
         logger.info(f"HF energy: {hf_energy:.8f} Ha")
 
-        # 3. CASSCF active space
-        mc = mcscf.CASSCF(mf, self.n_orb, self.n_elec)
-        mc.verbose = 0
-        logger.info(f"Running CASSCF({self.n_elec},{self.n_orb})...")
+        # ── CASSCF active space ──────────────────
+        n_orb  = self.n_orb
+        n_elec = self.n_elec   # keep original even active electrons (4)
+
+        # Final sanity check: core must be even
+        core_elec = mol.nelectron - n_elec
+        assert core_elec % 2 == 0, (
+            f"Core electrons = {core_elec} still odd. "
+            f"mol.nelectron={mol.nelectron}, n_elec={n_elec}"
+        )
+
+        logger.info(f"Running CASSCF({n_elec},{n_orb})...")
+        mc = mcscf.CASSCF(mf, n_orb, n_elec)
+        mc.max_cycle_macro = 50
+        mc.conv_tol = 1e-6
         mc.kernel()
+
+        # Store the active space actually used so VQE knows
+        self._actual_n_elec = n_elec   # n_elec after parity adjustment
+        self._actual_n_orb  = n_orb
 
         # 4. Extract integrals
         h1e, e_core = mc.get_h1eff()
-        h2e = ao2mo.restore(1, mc.get_h2eff(), self.n_orb)
+        h2e = ao2mo.restore(1, mc.get_h2eff(), n_orb)
 
         # 5. Build FermionOperator if OpenFermion available
         fermion_op = None
@@ -236,9 +278,9 @@ class QMMMHamiltonianBuilder:
             h1e=h1e,
             h2e=h2e,
             e_core=float(e_core),
-            n_electrons=self.n_elec,
-            n_orbitals=self.n_orb,
-            n_qubits=2 * self.n_orb,
+            n_electrons=n_elec,
+            n_orbitals=n_orb,
+            n_qubits=2 * n_orb,
             hf_energy=hf_energy,
             nuclear_repulsion=float(mol.energy_nuc()),
             mol_formula=mol_formula,

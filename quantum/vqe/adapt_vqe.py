@@ -82,8 +82,9 @@ class OperatorPool:
 
     def __init__(self, n_qubits: int, n_electrons: int):
         self.n = n_qubits
-        # After parity reduction, clamp electrons to half-fill max
-        self.n_elec = min(n_electrons, max(1, n_qubits // 2))
+        # Use full n_electrons, not n_qubits//2
+        # After parity reduction, n_electrons should already be correct
+        self.n_elec = n_electrons
         self.operators = self._build()
         if len(self.operators) == 0 and n_qubits > 2:
             self.n_elec = 1  # fallback: single electron
@@ -217,12 +218,15 @@ class ADAPTVQESolver:
         # Build objects
         self.H_matrix = qubit_hamiltonian.to_matrix()
         self.op_pool = OperatorPool(self.n_qubits, n_electrons)
+        
+        # Use the actual electron count from operator pool
+        self.n_elec_actual = self.op_pool.n_elec
 
         logger.info(
             f"ADAPTVQESolver: {self.n_qubits} qubits | "
             f"dim={2**self.n_qubits} | "
             f"pool={len(self.op_pool.operators)} ops | "
-            f"max_iter={max_iterations}"
+            f"max_iter={max_iterations} | n_elec={self.n_elec_actual}"
         )
 
     def solve(self, hf_energy: float = 0.0) -> VQEResult:
@@ -311,6 +315,12 @@ class ADAPTVQESolver:
 
         # Max iterations
         E = self._expectation(state, self.H_matrix)
+        
+        # Verify HF state energy includes constant term
+        E_hf_check = np.real(state.conj() @ self.H_matrix @ state)
+        logger.info(f"HF state energy check: {E_hf_check:.6f} Ha "
+                    f"(should be close to {hf_energy:.6f} Ha)")
+        
         return VQEResult(
             energy=E, parameters=np.array(parameters),
             state_vector=state, n_iterations=self.max_iter,
@@ -382,10 +392,19 @@ class ADAPTVQESolver:
         return grads
 
     def _hf_state(self, dim: int) -> np.ndarray:
-        """Hartree-Fock reference |11...100...0⟩."""
+        """Hartree-Fock reference - find lowest energy diagonal element."""
+        # For parity mapping, the correct HF state is the computational
+        # basis state with lowest energy expectation value
+        H_mat = self.H_matrix
+        energies = np.real(np.diag(H_mat))
+        hf_idx = np.argmin(energies)
+        
+        logger.info(f"DEBUG HF init: n_qubits={self.n_qubits}, "
+                    f"n_electrons_used={self.n_elec_actual}, dim={dim}")
+        logger.info(f"HF state index: {hf_idx} (bin: {bin(hf_idx)}), "
+                    f"E_diag = {energies[hf_idx]:.6f} Ha")
+        
         state = np.zeros(dim, dtype=complex)
-        hf_idx = sum(1 << i for i in range(min(self.n_elec, self.n_qubits)))
-        hf_idx = min(hf_idx, dim - 1)
         state[hf_idx] = 1.0
         return state
 
